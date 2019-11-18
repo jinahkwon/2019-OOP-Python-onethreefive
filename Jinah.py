@@ -39,6 +39,7 @@ with requests.Session() as s:
 
     for i in board_url:
         if 'board' == i.get('href').split('/')[1]:
-            board_url_list.append(i.get('href').split('/')[3])
+            if int(i.get('href').split('/')[3]) > 100 :
+                board_url_list.append(i.get('href').split('/')[3])
 
     print(board_url_list)
