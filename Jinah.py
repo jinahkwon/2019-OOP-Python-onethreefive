@@ -55,4 +55,5 @@ with requests.Session() as s:
             if 'board' == i.get('href').split('/')[1]:
                 assign_board_list.append(i.get('href'))
     print(assign_board_list)
+    print('07')
 
