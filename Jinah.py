@@ -3,11 +3,13 @@ import bs4
 import requests
 import datetime
 
+#로그인 정보 입력/아이디/비밀번호
 LOGIN_INFO = {
     'id' : '1707',
     'passwd' : 'wlsdk@8482'
 }
 
+#오늘 날짜 확인
 to_date = datetime.date.today()
 
 with requests.Session() as s:
@@ -33,21 +35,24 @@ with requests.Session() as s:
     # 접근 할 수 있는 모든 게시판을 검색 하기 위해서, 메인페이지에 접속한다.
     section_board_list_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/main').text, 'html.parser')
 
+    #사이드바에 있는 게시판 url 가져오기
     board_url = section_board_list_data.select('ul.treeview-menu li a')
 
     board_url_list = []
 
+    #기타 게시판 url가져오기
     for i in board_url:
         if 'board' == i.get('href').split('/')[1]:
             if int(i.get('href').split('/')[3]) > 100 :
                 board_url_list.append(i.get('href').split('/')[3])
 
+    assign_board_list = []
     #제출가능 게시판 찾기
     for assign in board_url_list:
         etc_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/board/lists/' + assign + '/page/1').text, 'html.parser')
         assign_board_url = etc_board_data.select('tr.info td a')
-        assign_board_list = []
         for i in assign_board_url:
             if 'board' == i.get('href').split('/')[1]:
                 assign_board_list.append(i.get('href'))
+    print(assign_board_list)
 
