@@ -42,11 +42,12 @@ with requests.Session() as s:
             if int(i.get('href').split('/')[3]) > 100 :
                 board_url_list.append(i.get('href').split('/')[3])
 
-    etc_board_name = []
     #제출가능 게시판 찾기
     for assign in board_url_list:
         etc_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/board/lists/' + assign + '/page/1').text, 'html.parser')
-        etc_board_name = etc_board_data.find('h3').getText()
-        print(etc_board_name)
         assign_board_url = etc_board_data.select('tr.info td a')
-        print(assign_board_url)
+        assign_board_list = []
+        for i in assign_board_url:
+            if 'board' == i.get('href').split('/')[1]:
+                assign_board_list.append(i.get('href'))
+
