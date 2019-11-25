@@ -1,1 +1,1 @@
-print(jaha)
+print('jaha')

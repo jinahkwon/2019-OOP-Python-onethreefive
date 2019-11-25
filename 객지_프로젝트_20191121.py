@@ -1,15 +1,14 @@
+
 #제출란 찾기
 import bs4
 import requests
 import datetime
 
-#로그인 정보 입력/아이디/비밀번호
 LOGIN_INFO = {
     'id' : '1770',
     'passwd' : 'j@h@7535'
 }
 
-#오늘 날짜 확인
 to_date = datetime.date.today()
 
 with requests.Session() as s:
@@ -35,25 +34,29 @@ with requests.Session() as s:
     # 접근 할 수 있는 모든 게시판을 검색 하기 위해서, 메인페이지에 접속한다.
     section_board_list_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/main').text, 'html.parser')
 
-    #사이드바에 있는 게시판 url 가져오기
     board_url = section_board_list_data.select('ul.treeview-menu li a')
 
     board_url_list = []
 
-    #기타 게시판 url가져오기
     for i in board_url:
         if 'board' == i.get('href').split('/')[1]:
             if int(i.get('href').split('/')[3]) > 100 :
                 board_url_list.append(i.get('href').split('/')[3])
 
-    assign_board_list = []
+    etc_board_name = []
     #제출가능 게시판 찾기
     for assign in board_url_list:
         etc_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/board/lists/' + assign + '/page/1').text, 'html.parser')
-        assign_board_url = etc_board_data.select('tr.info td a')
-        for i in assign_board_url:
-            if 'board' == i.get('href').split('/')[1]:
-                assign_board_list=(i.get('href'))
-                each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser')
-                each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 현재 제출이 가능한 게시글에는 class info가 되어있어서 이를 통해 찾는 함수
-                print(each_board_topic)  # 현재 제출이 가능한 게시글 링크를 출력
+        etc_board_name = etc_board_data.find('h3').getText() # 과목의 이름을 불러오는 함수
+        etc_list = etc_board_data.select('tr.info td a')
+
+        for sub_tr in etc_list:
+            sub_tr_data = sub_tr.select('td')
+            if len(sub_tr_data) == 0:
+                continue
+
+            notice_url = 'https://go.sasa.hs.kr/' + (sub_tr_data[1].find('a').get('href'))
+            notice_title = sub_tr_data[1].select('span')[0].getText().strip()
+            notice_date = sub_tr_data[4].getText().strip()
+
+            print("%s | %s | %s | %s" % (etc_board_name, notice_date, notice_title, notice_url))
