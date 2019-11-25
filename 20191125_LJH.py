@@ -48,6 +48,8 @@ with requests.Session() as s:
                 board_url_list.append(i.get('href').split('/')[3])
 
     assign_board_list = []
+    board_topic_list = [] # 각각의 게시글이 List 형태로 보관되어있는 list.
+
     #제출가능 게시판 찾기
     for assign in board_url_list:
         etc_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr/board/lists/' + assign + '/page/1').text, 'html.parser')
@@ -57,4 +59,5 @@ with requests.Session() as s:
                 assign_board_list=(i.get('href'))
                 each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser') #과제가 있는 게시글의 각각의 URL을 임시로 저장
                 each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 게시글의 URL로 들어가서 제목 부분을 가져와 저장
-                print(each_board_topic)  # each_board_topic 변수에 저장된 게시글의 제목을 프린트
+                board_topic_list.append(each_board_topic) # each_board_topic 변수에 저장된 게시글의 제목을 list에 추가
+    print(board_topic_list)  # 각각의 게시글 제목이 리스트 화 된것을 출력 (추후에 일일이 호출하여 필요한 것 부터 출력이 가능하게 사용할 것.)
