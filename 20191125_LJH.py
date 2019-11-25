@@ -39,6 +39,7 @@ with requests.Session() as s:
     board_url = section_board_list_data.select('ul.treeview-menu li a')
 
     board_url_list = []
+    lets_print_chart = []
 
     #기타 게시판 url가져오기
     for i in board_url:
@@ -54,6 +55,6 @@ with requests.Session() as s:
         for i in assign_board_url:
             if 'board' == i.get('href').split('/')[1]:
                 assign_board_list=(i.get('href'))
-                each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser')
-                each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 현재 제출이 가능한 게시글에는 class info가 되어있어서 이를 통해 찾는 함수
-                print(each_board_topic)  # 현재 제출이 가능한 게시글 링크를 출력
+                each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser') #과제가 있는 게시글의 각각의 URL을 임시로 저장
+                each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 게시글의 URL로 들어가서 제목 부분을 가져와 저장
+                print(each_board_topic)  # each_board_topic 변수에 저장된 게시글의 제목을 프린트
