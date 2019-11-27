@@ -1,7 +1,6 @@
 #제출란 찾기
 import bs4
 import requests
-
 import datetime
 
 
@@ -11,15 +10,17 @@ class day_cal:
 
     def calculator(self, end_day):
         dt_today = self.day
-        dt_end = datetime.datetime(int(end_day.split('-')[0]), int(end_day.split('-')[1]),
-                                       int(end_day.split('-')[2]))
+        dt_enddate = end_day.split(' ')[0]
+        dt_hour = end_day.split(' ')[1]
+        dt_end = datetime.datetime(int(dt_enddate.split('-')[0]), int(dt_enddate.split('-')[1]),
+                                       int(dt_enddate.split('-')[2]))
         td = dt_end - dt_today
-        print("D-{}".format(td.days))
+        return "D - {} + {} hour".format(td.days, dt_hour)
 
 #로그인 정보 입력/아이디/비밀번호
 LOGIN_INFO = {
-    'id' : '1770',
-    'passwd' : 'j@h@7535'
+    'id' : '1707',
+    'passwd' : 'wlsdk@8482'
 }
 
 #오늘 날짜 확인
@@ -61,7 +62,8 @@ with requests.Session() as s:
                 board_url_list.append(i.get('href').split('/')[3])
 
     assign_board_list = []
-    board_topic_list = [] # 각각의 게시글이 List 형태로 보관되어있는 list.
+    dict_date_name = {}
+
 
     #제출가능 게시판 찾기
     for assign in board_url_list:
@@ -72,9 +74,10 @@ with requests.Session() as s:
                 assign_board_list=(i.get('href'))
                 each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser') #과제가 있는 게시글의 각각의 URL을 임시로 저장
                 each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 게시글의 URL로 들어가서 제목 부분을 가져와 저장
-                board_topic_list.append(each_board_topic) # each_board_topic 변수에 저장된 게시글의 제목을 list에 추가
                 each_dday = each_board_data.select('small.text-info')
-                print(each_board_topic)  # 현재 제출이 가능한 게시글 링크를 출력
-                cal1 = day_cal()
-                cal1.calculator(each_dday[0].text.split('~')[1].strip().split(' ')[0])
+                dict_date_name.update({each_board_topic : each_dday[0].text.split('~')[1].strip()})
+    cal1 = day_cal()
+    for key in sorted(dict_date_name, key=lambda k : dict_date_name[k]):
+        print('{} {} | {}'.format(cal1.calculator(dict_date_name[key]), key, dict_date_name[key]))
+
 
