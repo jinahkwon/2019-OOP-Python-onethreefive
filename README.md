@@ -40,6 +40,7 @@
 
 ## 11. 참고 문헌
 https://github.com/kadragon/oop_python_ex/blob/master/project_ex/12_parser.py
+https://github.com/kadragon/oop_python_ex/blob/master/project_ex/11_parser.py
 
 <hr>
 
