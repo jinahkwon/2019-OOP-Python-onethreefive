@@ -33,6 +33,14 @@
 
 ## 9. 기타
 기타게시판 이외에도 다른 게시판도 적용될 수 있도록 한다.
+
+## 10. 실행 방법
+최종 파일 : 20191127_제출코드.py
+자신의 달빛 학사 아이디와 비밀번호를 코드 내 LOGIN INFO에 입력한 뒤 프로그램을 실행시킨다.
+
+## 11. 참고 문헌
+https://github.com/kadragon/oop_python_ex/blob/master/project_ex/12_parser.py
+
 <hr>
 
 #### readme 작성관련 참고하기 [바로가기](https://heropy.blog/2017/09/30/markdown/)
