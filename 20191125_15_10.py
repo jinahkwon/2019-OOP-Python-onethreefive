@@ -77,5 +77,4 @@ with requests.Session() as s:
                 print(each_board_topic)  # 현재 제출이 가능한 게시글 링크를 출력
                 cal1 = day_cal()
                 cal1.calculator(each_dday[0].text.split('~')[1].strip().split(' ')[0])
-    print(board_topic_list)  # 각각의 게시글 제목이 리스트 화 된것을 출력 (추후에 일일이 호출하여 필요한 것 부터 출력이 가능하게 사용할 것.)
 
