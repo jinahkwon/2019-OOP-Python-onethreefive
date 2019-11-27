@@ -5,8 +5,8 @@ import datetime
 
 #로그인 정보 입력/아이디/비밀번호
 LOGIN_INFO = {
-    'id' : '1770',
-    'passwd' : 'j@h@7535'
+    'id' : '1707',
+    'passwd' : 'wlsdk@8482'
 }
 
 #오늘 날짜 확인
@@ -53,7 +53,7 @@ with requests.Session() as s:
         assign_board_url = etc_board_data.select('tr.info td a')
         for i in assign_board_url:
             if 'board' == i.get('href').split('/')[1]:
-                assign_board_list=(i.get('href'))
-                each_board_data = bs4.BeautifulSoup(s.get('https://go.sasa.hs.kr' + assign_board_list).text, 'html.parser')
-                each_board_topic = each_board_data.select('div.user-block span')[0].getText().strip()  # 현재 제출이 가능한 게시글에는 class info가 되어있어서 이를 통해 찾는 함수
-                print(each_board_topic)  # 현재 제출이 가능한 게시글 링크를 출력
+                assign_board_list.append(i.get('href'))
+    print(assign_board_list)
+    print('01')
+
